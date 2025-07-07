@@ -1,0 +1,63 @@
+for installation of spark visit the give link below
+https://spark.apache.org/download.html
+
+step 1 : download & install apache spark
+open terminal and run:
+now check your java version
+
+java -version
+
+1. download spark (with hadoop3)
+wget https://downloads.apache.org/spark/spark-4.0.0/spark.4.0.0-bin-hadoop3.tgz
+
+cd downloads
+ls
+2. Extract the archive
+tar -xvf spark-4.0.0-bin-hadoop3.tgz
+3. Move to a simpler location
+mv spark-4.0.0-bin-hadoop3~/spatrk
+
+step 2: Set environment variables
+~/.bashrc 
+nano~/.bashrc
+Add at the bottam
+export SPARK_HOME=~/spark
+export PATH=$SPARK_HOME/bin:$PATH
+
+Then apply it
+source ~/.bashrc
+
+Step 3: Run spark -shell(Scala-based REPL for spark)
+spark-shell
+
+# Entering graphical data in spark shell
+#creating graphical data in graphx
+import org.apache.spark.graphx._
+# creating own data type
+case class User(name: String, age: Int)
+val users = List((1L,
+User("Alex", 26)), (2L, User("Bill", 42)), (3L,
+User("Carol", 18)), (4L, User("Dave", 16)), (5L,
+User("Eve", 45)), (6L, User("Farell", 30)), (7L, User
+("Garry", 32)), (8L, User("Harry", 36)), (9L,
+User("Ivan", 28)), (10L, User("Jill", 48)))
+val usersRDD = sc.parallelize (users)
+val follows = List(Edge(1L, 2L, 1),
+Edge(2L, 3L, 1), Edge(3L, 1L, 1), Edge(3L, 4L, 1), Edge(3L, 5L, 1), Edge(4L,
+5L, 1), Edge(6L, 5L, 1), Edge(7L, 6L, 1), Edge(6L, 8L, 1), Edge(7L, 8L, 1),
+Edge(7L, 9L, 1), Edge(9L, 8L, 1), Edge(8L, 10L, 1), Edge(10L, 9L, 1), Edge(1L,
+1L, 1))
+val followsRDD = sc.parallelize(follows)
+# creating user to access data 19
+val defaultUser = User("Icarus",
+22)
+val socialgraph = Graph (usersRDD,
+followsRDD, defaultUser)
+#Access data of the graph
+socialgraph.numEdges
+socialgraph.numVertices
+socialgraph.inDegrees.collect
+socialgraph.outDegrees.collect
+
+press ctrl+ D for exit the shell
+
